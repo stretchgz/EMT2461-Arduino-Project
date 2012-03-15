@@ -26,18 +26,17 @@ long DistanceConverter () {
 }
 
 
-// reverse motor
-void ReverseMotor () {
-// RandomMovementDirection = 0 -> left
-// RandomMovementDirection = 1 -> right
-
+// car will move left or right randomly
+int RandomDirection () {
+	
 	// initialize random seed
+	
+	// RandomMovementDirection = 0 -> left
+	// RandomMovementDirection = 1 -> right
 	srand ( time(NULL) );
 	// generate a random number
 	RandomMovementDirection = rand() % 1;
-}
-// car will move left or right randomly
-void RandomDirection () {
+	
 	if ( RandomMovementDirection == 1 ) {
 		// turn left
 		// StopLeftMotor();
@@ -49,14 +48,17 @@ void RandomDirection () {
 }
 
 void MotorSlowDown() {
-	//
+	// reduce powa!
 	//
 }
 void StopTheCar() {
-	// stop the car immediately
+	// cut the powa!
 	// digitWrite(7,LOW);
 }
-
+// reverse motor
+void ReverseMotor () {
+	// if the car can stop, then it can slow down
+}
 
 /**
 	* Main Loop

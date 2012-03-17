@@ -1,10 +1,11 @@
 ## Read Me
 
-This is my EMT (System Interface) project to operate a robot using [Arduino](http://www.arduino.cc/) Uno Board.
+This is my EMT (System Interface) project using [Arduino](http://www.arduino.cc/) [Uno](http://arduino.cc/en/Main/arduinoBoardUno) Board.
 
-The basic idea is the robotic car will move forward in a straight line and avoid obstacles by uding Sonar/Infrared/Laser Sensor.
+The robotic car will move forward in a straight line and
+to avoid obstacles by using Sonar/Infrared/Laser Sensor.
 
-Possibly we might use `Optical Encoders` to balance motors' speed.
+Additionally, we might use `Optical Encoders` to balance both motors' speed.
 
 ***
 
@@ -15,5 +16,6 @@ Component Name 		|	Quantity
 Arduino Uno			|	1
 BreadBoard			|	1
 Motor				|	2
-Toy wheels			|	2-4
-Infrared sensor (or Sonar)		|	2-3
+Toy wheels			|	4
+Distance sensor (Sonar/Laser/Infrared)		|	2-3
+Optical  Encoders 	|	2

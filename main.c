@@ -5,20 +5,24 @@
  *
  **/
 
-
-// include some basic libraries
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
 // declare other variables
-int DistanceFinder, RandomMovementDirection;
+int Direction;
+long Distance, duration;
+const int pingPin = 11;
 
 // setup
 void setup() {
+	// initialize serial communication:
+  Serial.begin(9600);
 	// multiple input
 	// int pin[5];
-
+	for(int i = 0; i<5; i++) {
+		pin[i];
+	}
 	/* 
 	pin[0] = left motor
 	pin[1] = right motor
@@ -28,71 +32,73 @@ void setup() {
 	pin[5] = optical encoder > motor right
 	*/
 
-	// pin #7 is the output
+	// output pin
 	pinMode(7, OUTPUT);
 }
 
-
 // convert distance from sensor to centermeter
 // taken from arduino examples
-long DistanceConverter () {
+long microsecondsToCentimeters (long microseconds) {
 	return microseconds / 29 / 2;
 }
 
-
-// generate a random number to make the robot turns left or right
-// 0 = left
-// 1 = right
-int RandomDirection () {
-	
-	// initialize random seed
-	srand ( time(NULL) );
-	// generate a random number
-	RandomMovementDirection = rand() % 1;
-
-	// condition
-	if ( RandomMovementDirection == 1 ) {
-		// turn left, slow motor down or stop it
-		// StopLeftMotor();
-	}
-	else {
-		// turn right
-		// StopRightMotor();
-	} 
-}
-
-void SlowDown() {
-	// use analog replaces didigtal write for speed console
-	// analogWrite(pin[0],190);
-	// analogWrite(pin[1],190);
-}
-void StopTheCar() {
-	// cut the powa!
-	// digitWrite(7,LOW);
-}
-// reverse motor
-void ReverseMotor () {
-	// if the car can stop, then it can slow down
-}
-
-
 // Main Loop
 void loop() {
-	// initialize motor
-	// InitCar();
+	// get distance
+	pinMode(pingPin, OUTPUT);
+  digitalWrite(pingPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(pingPin, HIGH);
+  delayMicroseconds(5);
+  digitalWrite(pingPin, LOW);
+  Distance = microsecondsToCentimeters(duration);
 
-	// fix motor speed
-	if ( 100 <= DistanceFinder <= 300 ) // units are in centermeter
+
+
+	// initialize motor
+	CarSpeed(3);
+
+	// initialize random seed
+	srand ( time(NULL) );
+
+	// generate a random number for choosing random direction
+	// 0 = left	/ 1 = right
+	Direction = rand() % 1;
+
+	// sensor picks up something, then fix motor speed
+	if ( 100 <= Distance <= 300 ) // units are in centermeter
 	{
-		// SlowDown();
+		// SlowTheCar
+		CarSpeed(1, Direction);
 	}
-	else if ( 50 <= DistanceFinder < 100 ) 
+	else if ( 50 <= Distance < 100 ) 
 	{
-		// StopTheCar();
+		// StopTheCar
+		CarSpeed(2, Direction);
 	}
 	else
 	{
-		// wateva();
+		// moves car forward
+		CarSpeed(3, Direction);
 	}
 
+}
+
+
+// control car speed
+void CarSpeed(int speed, int direction){
+	// 1 = 50%
+	// 2 = 0%
+	if (speed = 1) {
+		analogWrite(pin[direction], 180);
+		// digitalWrite(7, LOW);
+	}
+	else if (speed = 2) {
+		analogWrite(pin[direction], 0);
+		// digitalWrite(7, LOW);
+	}
+	else {
+		analogWrite(7, 255);
+		// digitalWrite(7, HIGH);
+	}
 }

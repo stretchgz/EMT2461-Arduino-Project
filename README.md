@@ -1,6 +1,6 @@
 ## Read Me
 
-This is my EMT (System Interface) project using [Arduino](http://www.arduino.cc/) [Uno](http://arduino.cc/en/Main/arduinoBoardUno) Board.
+This is my EMT (System Interface) project using [Arduino](http://www.arduino.cc/) [Uno Board](http://arduino.cc/en/Main/arduinoBoardUno).
 
 The robotic car will move forward in a straight line and
 to avoid obstacles by using Sonar/Infrared/Laser Sensor.

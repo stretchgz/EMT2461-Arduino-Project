@@ -5,14 +5,11 @@
  *
  **/
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-
-// declare variables
-long Distance, duration;
-const int pingPin = 7; // pin7 for sensor
-short int i=0, Direction;
+long 		Distance, // => distance between car and object
+			duration; // -> bounce back time when soundwave is hitting an object
+const int 	pingPin = 7; // pin7 for sensor
+short int 	i = 0,
+			RandomDirection; // random direction
 
 // setup
 void setup() {
@@ -61,23 +58,23 @@ void loop() {
 	// generate a random number for choosing random direction
 	// 0 = left
 	// 1 = right
-	Direction = rand() % 2;
+	RandomDirection = rand() % 2;
 
 	// sensor picks up something, then fix motor speed
-	if ( 100 <= Distance <= 300 ) // units are in centermeter
+	if ( 80 <= Distance <= 300 ) // units are in centermeter
 	{
 		// SlowTheCar
-		CarSpeed(1, Direction);
+		CarSpeed(1, RandomDirection);
 	}
-	else if ( 50 <= Distance < 100 ) 
+	else if ( Distance < 80 ) 
 	{
 		// StopTheCar
-		CarSpeed(2, Direction);
+		CarSpeed(2, RandomDirection);
 	}
 	else
 	{
 		// starts motor when there is no object detected
-		CarSpeed(3, Direction);
+		CarSpeed(3, RandomDirection);
 	}
 }
 
@@ -88,29 +85,34 @@ Other Functions to be called in the Main Loop
 ---------------------------------------- */
 
 // control car speed
-void CarSpeed(int speed, int direction){
+void CarSpeed(int speed, int RandomDirection){
 	// 1 = 50%
 	// 2 = 0%
 	if ( speed = 1 )
 	{
-		digitalWrite(5, LOW);
-		digitalWrite(6, HIGH);
-		// wait 1sec, then speed up both motor
-		delay(1000);
-		digitalWrite(5, HIGH);
+		analogWrite(5, 180);
+		analogWrite(6, 180);
+		// wait 800ms, then speed up both motor
+		delay(800);
+		analogWrite(5, 255);
 	}
 	else if ( speed = 2 )
 	{
-		digitalWrite(6, LOW);
-		digitalWrite(5, LOW);
-		// waits 1sec, then speed up both motor
-		delay(1000); 
-		digitalWrite(6, HIGH);
+		analogWrite(6, 0);
+		analogWrite(5, 0);
+		// waits 800ms, then speed up both motor
+		delay(800); 
+		analogWrite(6, 255);
 	}
 	else
 	{
 		// always speed up both motor
-		digitalWrite(5, HIGH);
-		digitalWrite(6, HIGH);
+		analogWrite(5, 255);
+		analogWrite(6, 255);
 	}
+}
+
+// reverse motor
+void ReserveCar() {
+
 }

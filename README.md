@@ -15,7 +15,9 @@ Component Name 		|	Quantity
 ---------------		|	---------  
 Arduino Uno			|	1
 BreadBoard			|	1
+Batteries			|	2-4
 DC Motor			|	2
 Toy wheels			|	4
-Distance sensor (Sonar/Laser/Infrared)		|	2-3
+Sonar Sensor		|	2
 Optical  Encoders 	|	2
+H-Bridge			|	1-2

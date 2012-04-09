@@ -20,7 +20,6 @@ short int 	i = 0,				// for loop counter, starts at zero
 			hBridgePin1,
 			hBridgePin2;
 
-
 void setup() {
 	// initialize serial communication:
 	Serial.begin(9600);
@@ -112,7 +111,7 @@ void CarSpeed( int ControlSpeed, int RandomDirection) {
 		set 1 to pin#5
 		set 2 to pin#6
 	*/
-	if ( RandomDirection = 1 ) 
+	if ( RandomDirection == 1 ) 
 	{
 		randomMotorPin = 5;
 	}
@@ -124,7 +123,7 @@ void CarSpeed( int ControlSpeed, int RandomDirection) {
 	/*
 		Control Car
 	*/
-	if ( ControlSpeed = 1 )
+	if ( ControlSpeed == 1 )
 	{
 		// reduce power on both motor pins
 		analogWrite(5, 180);
@@ -138,7 +137,7 @@ void CarSpeed( int ControlSpeed, int RandomDirection) {
 		// mvoes forward
 		ForwardCar(0);
 	}
-	else if ( ControlSpeed = 2 )
+	else if ( ControlSpeed == 2 )
 	{
 		// stop both motor
 		analogWrite(6, 0);
@@ -176,7 +175,10 @@ void ReserveCar() {
 }
 
 // Moves car forward
-void ForwardCar( int ReverseCurrent ) {
+// parameters 
+// 0 = forward current on H-Bridge
+// 1 = reverse H-Bridge
+void ForwardCar( int ReverseHBridge ) {
 	analogWrite(5, 255);
 	analogWrite(6, 255);
 }
@@ -188,7 +190,7 @@ void ForwardCar( int ReverseCurrent ) {
    no light 		= nothing is detected
 */
 void blinkBoardLED( int LED_Switch, int blinkDelayTime ) {
-	if ( LED_Switch = 1 ) {
+	if ( LED_Switch == 1 ) {
 		digitalWrite(ledPIN, HIGH); // lights up
 		delay(blinkDelayTime);
 		digitalWrite(ledPIN, LOW); // lights out

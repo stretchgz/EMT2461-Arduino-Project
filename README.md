@@ -24,11 +24,13 @@ Optical  Encoders   |   2
 
 ## Change Log
 
-2012-04-12   
+###April 12, 2012
+
+* add License
 
 
 ## License   
 
 ### Everything:
 
-    * [WTFPL](http://sam.zoy.org/wtfpl/)
+* [WTFPL](http://sam.zoy.org/wtfpl/)

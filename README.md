@@ -24,10 +24,13 @@ Optical  Encoders   |   2
 
 ## Change Log
 
-###April 12, 2012
+### April 13, 2012
+
+* update coding for H-Bridge
+
+### April 12, 2012
 
 * add License
-
 
 ## License   
 

@@ -8,21 +8,29 @@ to avoid obstacles by using Sonar/Infrared/Laser Sensor.
 Additionally, we might use `Optical Encoders` to balance both motors' speed.
 
 
-## Parts ( incomplete )
+## Parts
 
 Component Name      |   Quantity
 ---------------     |   ---------  
 Arduino Uno         |   1
-BreadBoard          |   1
+BreadBoard          |   1-2
 Batteries           |   2-4
-DC Motor            |   2
+DC Motor(2)         |   2
 Toy wheels          |   4
 Sonar Sensor        |   2
 H-Bridge            |   1-2
-Optical  Encoders   |   2
 
 
 ## Change Log
+
+### April 18, 2012
+
+* ADD: sensor detection function and return `Distance` back in an array
+* CHANGE: Reduce PWM in all analogWrite()
+* CHANGE: uses motor pin variables instead of pin numbers
+* REMOVE: Optiocal Encoders are nolonger in the project
+* REMOVE: `CarSpeed()` and `ReverseCar()` are now integrated into the loop()
+
 
 ### April 13, 2012
 

@@ -8,34 +8,39 @@
 */
 
 long        Distance[2],        // distance per sensor
-            duration;           // soundwave travel time for calculation
+            duration[2];           // soundwave travel time for calculation
 
-const int   ledPIN = 13;        // onboard LED pin
+const int   motorRightPin1 = 3,
+            motorRightPin2 = 11,
+            motorLeftPin1 = 9,
+            motorLeftPin2 = 10,
+            enableBridgeLeft = 7,
+            enableBridgeRight = 8;
 
-unsigned short int   i = 0,     // for loop counter, starts at zero
-            RandomDirection,    // random direction
-            randomMotorPin,     // a random motor pin
-            hBridgePin1 = 12,
-            hBridgePin2 = 13,
-            motorPin1 = 3,
-            motorPin2 = 11,
-            SonarSensorPins[2] = { 7, 8 };      // Sensors are using pin#7 and 8
+unsigned short int  RandomDirection,    // random direction
+                    randomMotorPin,     // a random motor pin
+                    SonarSensorPins[2] = { 2, 4 };      // sensor pins
 
 
 void setup() {
-    // initialize serial communication:
+    // initialize serial communication
     Serial.begin(9600);
 
     /*
         pinMode();
         ref: http://www.arduino.cc/playground/Interfacing/Processing
     */
-    pinMode(motorPin1, OUTPUT);
-    pinMode(motorPin2, OUTPUT);
-    pinMode(hBridgePin1, OUTPUT);
-    pinMode(hBridgePin2, OUTPUT);
-    pinMode(ledPIN, OUTPUT);
+    pinMode(motorLeftPin1, OUTPUT);
+    pinMode(motorLeftPin2, OUTPUT);
+    pinMode(motorRightPin1, OUTPUT);
+    pinMode(motorRightPin2, OUTPUT);
+    pinMode(enableBridgeLeft, OUTPUT);
+    pinMode(enableBridgeRight, OUTPUT);
 
+
+    // initialize both H-Bridge
+    digitalWrite(enableBridgeLeft, HIGH);
+    digitalWrite(enableBridgeRight, HIGH);   
     /*
         initialize random seed
         http://arduino.cc/en/Reference/RandomSeed
@@ -44,9 +49,7 @@ void setup() {
 }
 
 void loop() {
-    // H-Bridge default setting (moving forward)
-    digitalWrite( hBridgePin1, LOW );
-    digitalWrite( hBridgePin2, HIGH );
+
     /************************************************************
         randomly generate a number from zero to one
             0 = left
@@ -61,10 +64,10 @@ void loop() {
         2        pin#6
     */
     if ( RandomDirection == 1 ) {
-        randomMotorPin = motorPin1;
+        randomMotorPin = motorLeftPin1;
     }
     else {
-        randomMotorPin = motorPin2;
+        randomMotorPin = motorRightPin1;
     }
 
     /************************************************************
@@ -94,11 +97,12 @@ void loop() {
 
     if ( Distance[1] <= 100 || Distance[2] <= 100 ) // ~3 ft
     {
-        // blink onboard LED every 100ms
-        blinkBoardLED(1, 100); 
+
         // PWM: 60%
-        analogWrite( motorPin1, 153 );
-        analogWrite( motorPin2, 153 );
+        analogWrite( motorLeftPin1, 153 );
+        analogWrite( motorLeftPin2, 0 );
+        analogWrite( motorRightPin1, 153 );
+        analogWrite( motorRightPin2, 0 );
         // wait 800ms
         delay(800);
         // speed up a random motor
@@ -106,74 +110,31 @@ void loop() {
         // wait 600ms 
         delay(600);
         // mvoes forward
-        ForwardCar(0);
+        analogWrite( motorLeftPin1, 153 );
+        analogWrite( motorLeftPin2, 0 );
+        analogWrite( motorRightPin1, 153 );
+        analogWrite( motorRightPin2, 0 );
     }
     else if ( Distance[1] <= 30 ||  Distance[2] <= 30 ) // ~1 ft
     {
-        // blink LED every 250ms
-        blinkBoardLED(1, 250); 
-        /*
-            reverse H-Bridge to move backward
-
-            H-Bridge ref
-            Function    PinA    PinB
-            --------    ----    ----
-            direction   12      13
-            speed       3       11
-            brake       9       8
-        */
-        ForwardCar(1);
-        delay(800);
-        // switch H-Bridge back to normal, robot moves forward
-        ForwardCar(0);
+        /* reverse */
+        analogWrite( motorLeftPin1, 0 );
+        analogWrite( motorLeftPin2, 153 );
+        analogWrite( motorRightPin1, 0 );
+        analogWrite( motorRightPin2, 153 );
+        delay(1000);
+        /* forward */
+        analogWrite( motorLeftPin1, 153 );
+        analogWrite( motorLeftPin2, 0 );
+        analogWrite( motorRightPin1, 153 );
+        analogWrite( motorRightPin2, 0 );
     }
     else
     {
-        // LED off
-        blinkBoardLED(0, 0); 
-        ForwardCar(0);
-    }
-}
-
-// Controls robots to move forward or even backward
-// using a parameter to switch H-Bridge
-void ForwardCar( int reverseBridge ) {
-    if ( reverseBridge == 1 ) {
-        /*
-            1. stop motors
-            2. switch bridge
-            3. motors moves again
-        */
-        analogWrite( motorPin1, 0 );
-        analogWrite( motorPin2, 0 );
-        digitalWrite( hBridgePin1, HIGH );
-        digitalWrite( hBridgePin2, LOW );
-    }
-    else {
-        digitalWrite( hBridgePin1, LOW );
-        digitalWrite( hBridgePin2, HIGH );
-    }
-    // PWM: 80%
-    analogWrite( motorPin1, 204 );
-    analogWrite( motorPin2, 204 );
-}
-
-/*
-   Lights up the onboard LED and blink (optional)
-
-   fast blinking    = car is about to hit object
-   slow blinking    = something is detected
-   lights off       = nothing is detected
-*/
-void blinkBoardLED( int LED_Switch, int blinkDelayTime ) {
-    if ( LED_Switch == 1 ) {
-        digitalWrite(ledPIN, HIGH); // lights up
-        delay(blinkDelayTime);
-        digitalWrite(ledPIN, LOW); // lights out
-        delay(blinkDelayTime);
-    }
-    else {
-        digitalWrite(ledPIN, LOW); // lights out
+        analogWrite( motorLeftPin1, 200 );
+        analogWrite( motorLeftPin2, 0 );
+        analogWrite( motorRightPin1, 200 );
+        analogWrite( motorRightPin2, 0 );
     }
 }
 
@@ -187,6 +148,6 @@ long ObstacleDetection( int SensorPin ) {
     delayMicroseconds(5);
     digitalWrite(SonarSensorPins[SensorPin], LOW);
     pinMode(SonarSensorPins[SensorPin], INPUT);
-    duration = pulseIn(SonarSensorPins[SensorPin], HIGH);
-    return Distance[SensorPin] = duration / 29 / 2; // convert distance to centimeters
+    duration[SensorPin] = pulseIn(SonarSensorPins[SensorPin], HIGH);
+    return Distance[SensorPin] = duration[SensorPin] / 29 / 2; // convert distance to centimeters
 }

@@ -23,6 +23,12 @@ H-Bridge            |   1-2
 
 ## Change Log
 
+### April 30, 2012
+
+* REMOVE: ForwardCar() function
+* CHANGE: revise most codes from functions into `loop()`
+* CHANGE: revise variables declaration
+
 ### April 18, 2012
 
 * ADD: sensor detection function and return `Distance` back in an array

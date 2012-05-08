@@ -21,7 +21,7 @@ enableBridgeLeft =  7,
 enableBridgeRight = 8,
 // 2 SPDT buttons
 btn1 = 5,
-btn1 = 6;
+btn2 = 6;
 
 unsigned short int  SonarSensorPins[2] = { 2, 4 };      // sensor pins
 

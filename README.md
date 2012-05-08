@@ -23,6 +23,13 @@ Component Details:
 
 ## Change Log
 
+### May 8, 2012
+
+* ADD: 2 touch sensors (any SPDT button will do)
+* REMOVE: random direction and random number generator
+* REVISE: moving forward codes to a function
+* REVISE: robot will move right when picks up object from left sensor, vise versa for the other motor
+
 ### May 7, 2012
 
 * Add H-Bridge details to README.md

@@ -23,6 +23,9 @@ Component Details:
 
 ## Change Log
 
+### May 13, 2012
+* REVISE: optimize SPDT button codes
+
 ### May 8, 2012
 
 * ADD: 2 touch sensors (any SPDT button will do)

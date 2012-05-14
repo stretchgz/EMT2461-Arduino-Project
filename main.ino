@@ -1,13 +1,19 @@
 /*
   Author: Wai Tsang & William Wong
  
-  Description: Arduino for EMT2461 project
+ Description: Arduino for EMT2461 project
  
-  License: WTFPL (http://sam.zoy.org/wtfpl/) 
+ License: WTFPL (http://sam.zoy.org/wtfpl/) 
  
  */
-long  Distance[2],    // distance per sensor
-      duration[2];    // soundwave travel time for calculation
+long 
+// distance per sensor
+Distance[2],
+// soundwave travel time for calculation
+duration[2],
+// press buttons
+btn1Value, 
+btn2Value;
 
 const int 
 // Left Motor
@@ -19,20 +25,19 @@ motorRightPin2 =    11,
 // H-Bridge enable pins
 enableBridgeLeft =  7,
 enableBridgeRight = 8,
-// 2 SPDT buttons
-btn1 = 5,
-btn2 = 6;
+// 2 SPDT buttons ( using analog pin )
+btn1 = A1,
+btn2 = A2;
 
-unsigned short int  SonarSensorPins[2] = { 2, 4 };      // sensor pins
-
-bool btn1Value, btn2Value;
+// sonar sensor
+unsigned short int SonarSensorPins[2] = { 2, 4 };
 
 void setup() {
   // initialize serial communication
   Serial.begin(9600);
   /*
     pinMode();
-    ref: http://www.arduino.cc/playground/Interfacing/Processing
+   ref: http://www.arduino.cc/playground/Interfacing/Processing
    */
   pinMode(motorLeftPin1, OUTPUT);
   pinMode(motorLeftPin2, OUTPUT);
@@ -53,7 +58,7 @@ void setup() {
 void loop() {
   /*
     object detection:
-    ObstacleDetection( Sensor#, On/Off )
+      ObstacleDetection( Sensor#, On/Off )
    */
   ObstacleDetection(0,1);
   ObstacleDetection(1,1);
@@ -67,26 +72,33 @@ void loop() {
   /* debug ends */
 
   // read SPDT buttons state
-  btn1Value = digitalRead(btn1);
-  btn2Value = digitalRead(btn2);
+  btn1Value = analogRead(btn1);
+  btn2Value = analogRead(btn2);
+
+  /* debug */
+  Serial.print("Button 1 state: ");
+  Serial.println(btn1Value);
+  Serial.print("Button 2 state: ");
+  Serial.println(btn2Value);
+  /* debug ends */
 
   // Runs when Distance < 10cm or any SPDT button is touched
-  if ( Distance[0] <= 10 || Distance[1] <= 10 || btn1Value == 1 || btn2Value == 1 ) // 10cm
+  if ( Distance[0] <= 10 || Distance[1] <= 10 || btn2Value >= 1010 || btn1Value >= 1010 ) // 10cm
   {
     /* 
-      reverse 
-    */
+     reverse 
+     */
     analogWrite( motorLeftPin1, 0 );
-    analogWrite( motorLeftPin2, 180 );
+    analogWrite( motorLeftPin2, 125 );
     analogWrite( motorRightPin1, 0 );
-    analogWrite( motorRightPin2, 180 );
+    analogWrite( motorRightPin2, 125 );
     /* debug */    Serial.println("Reversing robot for 2 sec...");
-    
+
     // Stop Sensors
     ObstacleDetection(0,0);
     ObstacleDetection(1,0);
     // halt 2 sec
-    delay(2000);
+    delay(1000);
     // Restart Sensors
     ObstacleDetection(0,1);
     ObstacleDetection(1,1);
@@ -96,8 +108,8 @@ void loop() {
   {
     /*
       generate a number from zero to one
-      ref: http://arduino.cc/en/Reference/random
-    */
+     ref: http://arduino.cc/en/Reference/random
+     */
     if ( Distance[0] > Distance[1] ) {
       /* debug */      Serial.println("Turning Right!");
       analogWrite( motorLeftPin1, 160 );
@@ -135,7 +147,7 @@ void RobotMovesForward() {
 
 long ObstacleDetection( int SensorPin, int SenorSwitch ) { 
   // only if parameter is set to one, sensors will do their jobs
-  if (SenorSwitch == 1){
+  if ( SenorSwitch == 1 ) {
     pinMode(SonarSensorPins[SensorPin], OUTPUT);
     digitalWrite(SonarSensorPins[SensorPin], LOW);
     delayMicroseconds(50);
@@ -149,4 +161,3 @@ long ObstacleDetection( int SensorPin, int SenorSwitch ) {
     return Distance[SensorPin] = duration[SensorPin] / 29 / 2;
   } 
 }
- 

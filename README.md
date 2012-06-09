@@ -28,10 +28,10 @@ Component Details:
 
 ### May 8, 2012
 
-* ADD: 2 touch sensors (any SPDT button will do)
-* REMOVE: random direction and random number generator
-* REVISE: moving forward codes to a function
-* REVISE: robot will move right when picks up object from left sensor, vise versa for the other motor
+* Added: 2 touch sensors (any SPDT button will do)
+* Removed: random direction and random number generator
+* Improved: moving forward codes to a function
+* Improved: robot will move right when picks up object from left sensor, vise versa for the other motor
 
 ### May 7, 2012
 
@@ -40,25 +40,25 @@ Component Details:
 
 ### April 30, 2012
 
-* REMOVE: ForwardCar() function
-* CHANGE: revise most codes from functions into `loop()`
-* CHANGE: revise variables declaration
+* Removed: ForwardCar() function
+* Improved: revise most codes from functions into `loop()`
+* Improved: revise variables declaration
 
 ### April 18, 2012
 
-* ADD: sensor detection function and return `Distance` back in an array
-* CHANGE: Reduce PWM in all analogWrite()
-* CHANGE: uses motor pin variables instead of pin numbers
-* REMOVE: Optical Encoders are now removed from this project
-* REMOVE: `CarSpeed()` and `ReverseCar()` are now integrated into the loop()
+* Added: sensor detection function and return `Distance` back in an array
+* Improved: Reduce PWM in all analogWrite()
+* Improved: uses motor pin variables instead of pin numbers
+* Removed: Optical Encoders are now removed from this project
+* Removed: `CarSpeed()` and `ReverseCar()` are now integrated into the loop()
 
 ### April 13, 2012
 
-* update coding for H-Bridge
+* Added: H-Bridge control
 
 ### April 12, 2012
 
-* add License
+* Added: License
 
 ## License   
 

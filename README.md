@@ -62,6 +62,4 @@ Component Details:
 
 ## License   
 
-### Everything:
-
-* [WTFPL](http://sam.zoy.org/wtfpl/)
+* [MIT](http://opensource.org/licenses/MIT)

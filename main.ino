@@ -1,11 +1,9 @@
 /*
-  Author: Wai Tsang & William Wong
+ Author: Wai Tsang & William Wong
  
  Description: Arduino for EMT2461 project
- 
- License: WTFPL (http://sam.zoy.org/wtfpl/) 
- 
  */
+
 long 
 // distance per sensor
 Distance[2],
